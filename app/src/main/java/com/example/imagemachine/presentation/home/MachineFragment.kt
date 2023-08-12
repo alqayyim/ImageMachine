@@ -64,9 +64,7 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
         observeData(viewModel.machineLiveData) { result ->
             result?.let {
                 when (it) {
-                    is Resource.Success -> {
-                        machineAdapter.submitList(it.data)
-                    }
+                    is Resource.Success -> machineAdapter.submitList(it.data)
                     is Resource.Error -> toast("${it.error.message}")
                     else -> {}
                 }

@@ -33,6 +33,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -44,7 +47,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
 
+    implementation 'io.github.ParkSangGwon:tedimagepicker:1.4.2'
     // koin dependency injection
     implementation 'io.insert-koin:koin-android:3.2.1'
     implementation 'io.insert-koin:koin-core:3.2.1'

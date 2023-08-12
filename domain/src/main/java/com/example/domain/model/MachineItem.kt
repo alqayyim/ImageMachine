@@ -7,5 +7,6 @@ data class MachineItem(
     val machineName: String,
     val machineType: String,
     val machineQRCodeNumber: Int,
-    val lastMaintainedDate: Date
+    val lastMaintainedDate: Date,
+    val images: List<String>? = null
 )
