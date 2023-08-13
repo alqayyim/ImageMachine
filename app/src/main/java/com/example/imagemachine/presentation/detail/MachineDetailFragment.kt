@@ -1,6 +1,7 @@
 package com.example.imagemachine.presentation.detail
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,6 +24,9 @@ import com.permissionx.guolindev.PermissionX
 import gun0912.tedimagepicker.builder.TedImagePicker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.IndexOutOfBoundsException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
 
@@ -46,6 +50,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
         bindData()
         setupAddImageClickListener()
         setupSaveClickListener()
+        setOnDateClickListener()
     }
 
     private fun observeListImage() {
@@ -136,6 +141,27 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                         toast("These permissions are denied: $deniedList")
                     }
                 }
+        }
+    }
+
+    private fun setOnDateClickListener() {
+        val cal = Calendar.getInstance()
+
+        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val myFormat = "MMMM dd yyyy"
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            binding.etDate.setText(sdf.format(cal.time))
+        }
+
+        binding.etDate.setOnClickListener {
+            DatePickerDialog(requireContext(), dateSetListener,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)).show()
         }
     }
 }
