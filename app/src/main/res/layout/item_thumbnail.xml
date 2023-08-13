@@ -24,6 +24,7 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
+            android:id="@+id/ivDelete"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_margin="8dp"

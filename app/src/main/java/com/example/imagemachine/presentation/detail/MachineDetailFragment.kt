@@ -2,62 +2,78 @@ package com.example.imagemachine.presentation.detail
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.core.data.Resource
+import com.example.core.goneMultipleViews
 import com.example.core.navigateTo
+import com.example.core.observeData
 import com.example.core.px
 import com.example.core.toast
-import com.example.domain.model.MachineImage
+import com.example.core.visibleMultipleViews
+import com.example.domain.model.MachineItem
 import com.example.imagemachine.R
 import com.example.imagemachine.databinding.FragmentMachineDetailBinding
-import com.example.imagemachine.presentation.home.MachineViewModel
 import com.example.imagemachine.utils.VerticalSpaceItemDecoration
 import com.example.imagemachine.utils.delegate.viewBinding
 import com.permissionx.guolindev.PermissionX
 import gun0912.tedimagepicker.builder.TedImagePicker
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IndexOutOfBoundsException
 
 class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
 
     private val binding by viewBinding(FragmentMachineDetailBinding::bind)
-    private val viewModel: MachineViewModel by viewModel()
+    private val viewModel: MachineDetailViewModel by viewModel()
     private val args: MachineDetailFragmentArgs by navArgs()
     private val thumbnailAdapter by lazy {
         ThumbnailAdapter(
-            onClick = {
-                navigateTo(R.id.action_to_detail)
+            onClick = { navigateTo(R.id.action_to_detail) },
+            onDeleteClick = {
+                onDeleteClicked(it)
             }
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeSaveMachine()
+        observeListImage()
         setupThumbnailAdapter()
-        binding.layoutAddImage.setOnClickListener {
-            PermissionX.init(requireActivity())
-                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .request { allGranted, grantedList, deniedList ->
-                    if (allGranted) {
-                        toast("All permissions are granted")
-                        TedImagePicker.with(requireContext())
-                            .startMultiImage { uriList ->
-                                val machineImages = uriList.map { MachineImage(it) }
-                                thumbnailAdapter.submitList(machineImages)
-                                // showMultiImage(uriList)
-                            }
-                    } else {
-                        toast("These permissions are denied: $deniedList")
-                    }
-                }
-        }
+        bindData()
+        setupAddImageClickListener()
+        setupSaveClickListener()
+    }
 
-        binding.etId.setText(args.argsMachineDetail.id.toString())
-        binding.etName.setText(args.argsMachineDetail.machineName)
-        binding.etType.setText(args.argsMachineDetail.machineType)
-        binding.etCodeNumber.setText(args.argsMachineDetail.machineQRCodeNumber.toString())
-        binding.etDate.setText(args.argsMachineDetail.lastMaintainedDate)
+    private fun observeListImage() {
+        observeData(viewModel.machineImages) { result ->
+            result?.let { thumbnailAdapter.submitList(it) }
+        }
+    }
+
+    private fun observeSaveMachine() {
+        observeData(viewModel.saveMachineLiveData) { result ->
+            result?.let {
+                when (it) {
+                    is Resource.Success -> toast("Updated!")
+                    is Resource.Error -> toast("${it.error.message}")
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun bindData() {
+        binding.apply {
+            etId.setText(args.argsMachineDetail.id.toString())
+            etName.setText(args.argsMachineDetail.machineName)
+            etType.setText(args.argsMachineDetail.machineType)
+            etCodeNumber.setText(args.argsMachineDetail.machineQRCodeNumber.toString())
+            etDate.setText(args.argsMachineDetail.lastMaintainedDate)
+        }
     }
 
     private fun setupThumbnailAdapter() {
@@ -65,6 +81,61 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
             addItemDecoration(VerticalSpaceItemDecoration(2.px))
             layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = thumbnailAdapter
+        }
+        args.argsMachineDetail.images?.let {
+            if (it.size >= 10) goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
+            viewModel.machineImages.value = it
+        }
+    }
+
+    private fun setupSaveClickListener() {
+        binding.btnSave.setOnClickListener {
+            val data = MachineItem(
+                id = args.argsMachineDetail.id,
+                machineName = binding.etName.text.toString(),
+                machineType = binding.etType.text.toString(),
+                machineQRCodeNumber = binding.etCodeNumber.text.toString().toInt(),
+                lastMaintainedDate = binding.etDate.text.toString(),
+                images = viewModel.getImagesList()
+            )
+            viewModel.saveMachineItem(data)
+        }
+    }
+
+    private fun onDeleteClicked(uriImage: String) {
+        val data = viewModel.getImagesList()?.toMutableList()
+        data?.remove(uriImage)
+        viewModel.machineImages.value = data
+    }
+
+    private fun setupAddImageClickListener() {
+        binding.layoutAddImage.setOnClickListener {
+            PermissionX.init(requireActivity())
+                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .request { allGranted, _, deniedList ->
+                    if (allGranted) {
+                        TedImagePicker.with(requireContext())
+                            .max(10, "Only 10 maximum allowed ")
+                            .startMultiImage { uriList ->
+                                val galleryImage = uriList.map { it.toString() }
+                                val existingImage = thumbnailAdapter.currentList
+                                val mergeImage = galleryImage.plus(existingImage).distinct()
+                                val totalSize = mergeImage.size
+                                if (totalSize == 10) {
+                                    goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
+                                    viewModel.machineImages.value = mergeImage
+                                } else if (totalSize < 10) {
+                                    visibleMultipleViews(
+                                        binding.ivAddImage,
+                                        binding.tvAddImagesLabel
+                                    )
+                                    viewModel.machineImages.value = mergeImage
+                                } else toast("You have more than 10 images")
+                            }
+                    } else {
+                        toast("These permissions are denied: $deniedList")
+                    }
+                }
         }
     }
 }

@@ -11,15 +11,30 @@ import kotlinx.coroutines.flow.flow
 
 class MachineRepositoryImpl(
     private val machineDao: MachineDao,
-    private val machineMapper: MachineMapper
+    private val toMachineMapper: MachineEntityToMachineMapper,
+    private val toMachineEntityMapper: MachineToMachineEntityMapper
 ) : MachineRepository {
     override suspend fun getMachineList(): Flow<Resource<List<MachineItem>>> {
         return flow {
             val localDb = machineDao.getAllMachine().map {
-                it.mapTo(machineMapper)
+                it.mapTo(toMachineMapper)
             }
             val response = Resource.Success(localDb.ifEmpty { getDummyData() })
             emit(response)
+        }.buildFlow()
+    }
+
+    override suspend fun saveMachineList(request: List<MachineItem>): Flow<Resource<Unit>> {
+        return flow {
+            val data = request.map { it.mapTo(toMachineEntityMapper) }
+            emit(Resource.Success(machineDao.insertAll(data)))
+        }.buildFlow()
+    }
+
+    override suspend fun saveMachineItem(request: MachineItem): Flow<Resource<Unit>> {
+        return flow {
+            val data = request.mapTo(toMachineEntityMapper)
+            emit(Resource.Success(machineDao.insert(data)))
         }.buildFlow()
     }
 
@@ -68,7 +83,7 @@ class MachineRepositoryImpl(
         val MACHINE_6 = MachineItem(
             66666,
             "MachineSix",
-            "MachineType5",
+            "MachineType6",
             12341,
             "March 25 2023"
         )

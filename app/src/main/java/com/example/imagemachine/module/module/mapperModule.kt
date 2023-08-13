@@ -1,8 +1,10 @@
 package com.example.imagemachine.module.module
 
-import com.example.data.MachineMapper
+import com.example.data.MachineEntityToMachineMapper
+import com.example.data.MachineToMachineEntityMapper
 import org.koin.dsl.module
 
 val mapperModule = module {
-    factory { MachineMapper() }
+    factory { MachineEntityToMachineMapper() }
+    factory { MachineToMachineEntityMapper() }
 }

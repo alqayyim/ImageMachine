@@ -11,8 +11,14 @@ import com.google.gson.Gson
 class Converters {
 
     @TypeConverter
-    fun listToJsonString(value: List<String>?): String = Gson().toJson(value)
+    fun listToJsonString(value: List<String>?): String? {
+        return value?.let { Gson().toJson(value) }
+    }
 
     @TypeConverter
-    fun jsonStringToList(value: String) = Gson().fromJson(value, Array<String>::class.java).toList()
+    fun jsonStringToList(value: String?): List<String>? {
+        return value?.let {
+            Gson().fromJson(value, Array<String>::class.java).toList()
+        }
+    }
 }

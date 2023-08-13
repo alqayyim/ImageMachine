@@ -1,7 +1,8 @@
-package com.example.domain.model
+package com.example.domain.usecase
 
 import com.example.core.FlowUseCase
 import com.example.core.data.Resource
+import com.example.domain.model.MachineItem
 import com.example.domain.repository.MachineRepository
 import kotlinx.coroutines.flow.Flow
 

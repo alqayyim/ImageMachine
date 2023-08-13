@@ -35,6 +35,7 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
         super.onViewCreated(view, savedInstanceState)
         setupMachineAdapter()
         observeMachineList()
+        viewModel.getMachineList()
         binding.tvSortBy.setOnClickListener {
             BottomDialogSortBy(requireContext(), onClick = {
                 when(it) {
@@ -64,7 +65,12 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
         observeData(viewModel.machineLiveData) { result ->
             result?.let {
                 when (it) {
-                    is Resource.Success -> machineAdapter.submitList(it.data)
+                    is Resource.Success -> {
+                        it.data?.let { data ->
+                            viewModel.saveMachineList(data)
+                            machineAdapter.submitList(data)
+                        }
+                    }
                     is Resource.Error -> toast("${it.error.message}")
                     else -> {}
                 }

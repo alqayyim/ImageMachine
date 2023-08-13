@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_blue">#039BE5</color>
 
+    <color name="grey_disable_button">#8CDDDDDD</color>
+    <color name="grey_disable_text">#8CAAAAAA</color>
 </resources>
