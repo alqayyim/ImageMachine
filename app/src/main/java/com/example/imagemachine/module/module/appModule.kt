@@ -1,7 +1,8 @@
 package com.example.imagemachine.module.module
 
 val appModule = listOf(
-    preferenceModule,
+    roomModule,
+    mapperModule,
     useCaseModule,
     repositoryModule,
     useCaseModule,

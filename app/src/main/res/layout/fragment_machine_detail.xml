@@ -6,26 +6,162 @@
     android:layout_height="match_parent"
     tools:context=".presentation.detail.MachineDetailFragment">
 
+    <TextView
+        android:id="@+id/tvIdLabel"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="ID"
+        app:layout_constraintBottom_toBottomOf="@+id/etId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etId" />
+
+    <TextView
+        android:id="@+id/tvNameLabel"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="@+id/etName"
+        app:layout_constraintStart_toStartOf="@id/tvIdLabel"
+        app:layout_constraintTop_toTopOf="@+id/etName" />
+
+    <TextView
+        android:id="@+id/tvTypeLabel"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Label"
+        app:layout_constraintBottom_toBottomOf="@+id/etType"
+        app:layout_constraintStart_toStartOf="@id/tvNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/etType" />
+
+    <TextView
+        android:id="@+id/tvCodeNumber"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QR Code Number"
+        app:layout_constraintBottom_toBottomOf="@+id/etCodeNumber"
+        app:layout_constraintStart_toStartOf="@id/tvTypeLabel"
+        app:layout_constraintTop_toTopOf="@+id/etCodeNumber" />
+
+    <TextView
+        android:id="@+id/tvLastMaintenanceLabel"
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last Maintenance"
+        app:layout_constraintBottom_toBottomOf="@+id/etDate"
+        app:layout_constraintStart_toStartOf="@id/tvCodeNumber"
+        app:layout_constraintTop_toTopOf="@+id/etDate" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/vBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="tvLastMaintenanceLabel, tvCodeNumber"/>
+
+    <EditText
+        android:id="@+id/etId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:paddingStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_rounded"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/vBarrier"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12341" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_rounded"
+        android:paddingStart="8dp"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/vBarrier"
+        app:layout_constraintTop_toBottomOf="@id/etId" />
+
+    <EditText
+        android:id="@+id/etType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:paddingStart="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="8dp"
+        android:background="@drawable/bg_rounded"
+        app:layout_constraintStart_toStartOf="@id/vBarrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etName"/>
+
+    <EditText
+        android:id="@+id/etCodeNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:paddingStart="8dp"
+        android:background="@drawable/bg_rounded"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/vBarrier"
+        app:layout_constraintTop_toBottomOf="@id/etType"/>
+
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:paddingStart="8dp"
+        android:background="@drawable/bg_rounded"
+        android:paddingVertical="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/vBarrier"
+        app:layout_constraintTop_toBottomOf="@id/etCodeNumber"/>
+
     <LinearLayout
         android:id="@+id/layoutAddImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/dot_border_grey_background"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="visible"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible"
-        android:background="@drawable/dot_border_grey_background">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDate"
+        tools:visibility="visible">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvThumbnail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:itemCount="2"/>
+            tools:itemCount="2" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivAddImage"
@@ -40,13 +176,13 @@
 
         <TextView
             android:id="@+id/tvAddImagesLabel"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:gravity="center"
-            android:textColor="@color/light_blue"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
             android:text="Add Machine Images"
+            android:textColor="@color/light_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivAddImage" />
     </LinearLayout>

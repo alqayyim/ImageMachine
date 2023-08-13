@@ -1,20 +1,18 @@
 package com.example.imagemachine.presentation.detail
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.core.toast
-import android.Manifest
-import android.util.Log
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.navigateTo
 import com.example.core.px
+import com.example.core.toast
 import com.example.domain.model.MachineImage
 import com.example.imagemachine.R
 import com.example.imagemachine.databinding.FragmentMachineDetailBinding
 import com.example.imagemachine.presentation.home.MachineViewModel
-import com.example.imagemachine.presentation.home.adapter.MachineAdapter
-import com.example.imagemachine.utils.HorizontalSpaceItemDecoration
 import com.example.imagemachine.utils.VerticalSpaceItemDecoration
 import com.example.imagemachine.utils.delegate.viewBinding
 import com.permissionx.guolindev.PermissionX
@@ -25,6 +23,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
 
     private val binding by viewBinding(FragmentMachineDetailBinding::bind)
     private val viewModel: MachineViewModel by viewModel()
+    private val args: MachineDetailFragmentArgs by navArgs()
     private val thumbnailAdapter by lazy {
         ThumbnailAdapter(
             onClick = {
@@ -44,7 +43,6 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                         toast("All permissions are granted")
                         TedImagePicker.with(requireContext())
                             .startMultiImage { uriList ->
-                                Log.d("machinedetail", "uriLilst: $uriList")
                                 val machineImages = uriList.map { MachineImage(it) }
                                 thumbnailAdapter.submitList(machineImages)
                                 // showMultiImage(uriList)
@@ -54,6 +52,12 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                     }
                 }
         }
+
+        binding.etId.setText(args.argsMachineDetail.id.toString())
+        binding.etName.setText(args.argsMachineDetail.machineName)
+        binding.etType.setText(args.argsMachineDetail.machineType)
+        binding.etCodeNumber.setText(args.argsMachineDetail.machineQRCodeNumber.toString())
+        binding.etDate.setText(args.argsMachineDetail.lastMaintainedDate)
     }
 
     private fun setupThumbnailAdapter() {

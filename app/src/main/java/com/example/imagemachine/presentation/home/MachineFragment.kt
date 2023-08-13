@@ -26,7 +26,7 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
     private val machineAdapter by lazy {
         MachineAdapter(
             onClick = {
-                navigateTo(R.id.action_to_detail)
+                navigateTo(MachineFragmentDirections.actionToDetail(it))
             }
         )
     }

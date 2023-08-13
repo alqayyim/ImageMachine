@@ -29,6 +29,12 @@
         android:id="@+id/machine_detail"
         android:name="com.example.imagemachine.presentation.detail.MachineDetailFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+
+        <argument
+            android:name="argsMachineDetail"
+            app:argType="com.example.domain.model.MachineItem" />
+
+    </fragment>
 
 </navigation>
