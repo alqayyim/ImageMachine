@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/nav_machine_list">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/nav_machine_list"
         android:name="com.example.imagemachine.presentation.home.MachineFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_machine" >
         <action
             android:id="@+id/action_to_detail"
-            app:destination="@+id/machine_detail"
+            app:destination="@+id/nav_machine_detail"
             app:enterAnim="@anim/slide_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
@@ -20,16 +20,25 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.imagemachine.presentation.dashboard.DashboardFragment"
+        android:id="@+id/nav_qr"
+        android:name="com.example.imagemachine.presentation.dashboard.QRScannerFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_qr_scanner">
+
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@+id/nav_machine_detail"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"/>
+    </fragment>
 
     <fragment
-        android:id="@+id/machine_detail"
+        android:id="@+id/nav_machine_detail"
         android:name="com.example.imagemachine.presentation.detail.MachineDetailFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_qr_scanner" >
 
         <argument
             android:name="argsMachineDetail"

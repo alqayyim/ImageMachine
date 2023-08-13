@@ -3,7 +3,6 @@ package com.example.imagemachine.presentation.detail
 import android.Manifest
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -23,7 +22,6 @@ import com.example.imagemachine.utils.delegate.viewBinding
 import com.permissionx.guolindev.PermissionX
 import gun0912.tedimagepicker.builder.TedImagePicker
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IndexOutOfBoundsException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

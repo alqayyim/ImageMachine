@@ -18,15 +18,18 @@ interface MachineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(machine: MachineItemEntity)
 
-    @Update
-    fun update(machine: MachineItemEntity)
-
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertAll(machine: List<MachineItemEntity>)
 
     @Delete
     fun delete(machine: MachineItemEntity)
 
-    @Query("select * from machine_table")
+    @Query("SELECT * from machine_table")
     fun getAllMachine(): List<MachineItemEntity>
+
+    @Query("SELECT * from machine_table WHERE qrCodeNumber = :arg0")
+    fun getMachine(arg0: Int): MachineItemEntity
+
+    @Query("SELECT EXISTS(SELECT * FROM machine_table WHERE qrCodeNumber = :arg0)")
+    fun isExist(arg0: Int): Boolean
 }

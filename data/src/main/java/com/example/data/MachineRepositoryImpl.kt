@@ -38,6 +38,21 @@ class MachineRepositoryImpl(
         }.buildFlow()
     }
 
+    override suspend fun checkMachine(request: String): Flow<Resource<Boolean>> {
+        return flow {
+            val isExist = machineDao.isExist(request.toInt())
+            if (isExist) emit(Resource.Success(true))
+            else emit(Resource.Error(Throwable("Data Not Found")))
+        }.buildFlow()
+    }
+
+    override suspend fun getMachine(request: Int): Flow<Resource<MachineItem>> {
+        return flow {
+            val data = machineDao.getMachine(request).mapTo(toMachineMapper)
+            emit(Resource.Success(data))
+        }.buildFlow()
+    }
+
     // mock fetch data from API/Backend
     private fun getDummyData(): List<MachineItem> {
         val MACHINE_1 = MachineItem(

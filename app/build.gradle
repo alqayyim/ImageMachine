@@ -55,6 +55,7 @@ dependencies {
     // custom lib
     implementation 'com.guolindev.permissionx:permissionx:1.7.1'
     implementation 'io.github.ParkSangGwon:tedimagepicker:1.4.2'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
     // room
     implementation "androidx.room:room-runtime:$room_version"
