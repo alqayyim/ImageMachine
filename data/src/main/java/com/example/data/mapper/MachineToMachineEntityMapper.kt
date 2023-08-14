@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.data.mapper
 
 import com.example.core.Mapper
 import com.example.data.entity.MachineItemEntity

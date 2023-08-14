@@ -1,6 +1,6 @@
 package com.example.imagemachine.module.module
 
-import com.example.data.MachineRepositoryImpl
+import com.example.data.repository.MachineRepositoryImpl
 import com.example.domain.repository.MachineRepository
 import org.koin.dsl.module
 

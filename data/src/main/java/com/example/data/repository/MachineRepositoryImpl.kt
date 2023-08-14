@@ -1,8 +1,10 @@
-package com.example.data
+package com.example.data.repository
 
 import com.example.core.buildFlow
 import com.example.core.data.Resource
 import com.example.core.mapTo
+import com.example.data.mapper.MachineEntityToMachineMapper
+import com.example.data.mapper.MachineToMachineEntityMapper
 import com.example.data.entity.MachineDao
 import com.example.domain.model.MachineItem
 import com.example.domain.repository.MachineRepository
