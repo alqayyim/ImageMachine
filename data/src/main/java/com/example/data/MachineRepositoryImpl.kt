@@ -46,6 +46,12 @@ class MachineRepositoryImpl(
         }.buildFlow()
     }
 
+    override suspend fun deleteMachineItem(request: Int): Flow<Resource<Unit>> {
+        return flow {
+            emit(Resource.Success(machineDao.deleteById(request)))
+        }.buildFlow()
+    }
+
     override suspend fun getMachine(request: Int): Flow<Resource<MachineItem>> {
         return flow {
             val data = machineDao.getMachine(request).mapTo(toMachineMapper)

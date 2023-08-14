@@ -15,8 +15,6 @@ import com.example.imagemachine.utils.VerticalSpaceItemDecoration
 import com.example.core.observeData
 import com.example.core.px
 import com.example.core.toast
-import com.example.imagemachine.presentation.BottomDialogSortBy
-import com.example.imagemachine.presentation.SortMode
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MachineFragment : Fragment(R.layout.fragment_machine) {

@@ -1,4 +1,4 @@
-package com.example.imagemachine.presentation
+package com.example.imagemachine.presentation.home
 
 /**
  * @author asadurrahman.qayyim

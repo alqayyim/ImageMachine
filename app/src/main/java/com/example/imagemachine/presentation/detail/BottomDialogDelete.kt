@@ -1,17 +1,17 @@
-package com.example.imagemachine.presentation
+package com.example.imagemachine.presentation.detail
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import com.example.imagemachine.databinding.BottomDialogSortBinding
+import com.example.imagemachine.databinding.BottomDialogDeleteBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class BottomDialogSortBy(
+class BottomDialogDelete(
     context: Context,
-    val onClick: (SortMode) -> Unit
+    val onClick: (Boolean) -> Unit
 ) : BottomSheetDialog(context) {
 
-    private val binding = BottomDialogSortBinding.inflate(LayoutInflater.from(context))
+    private val binding = BottomDialogDeleteBinding.inflate(LayoutInflater.from(context))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +22,12 @@ class BottomDialogSortBy(
             btnClose.setOnClickListener {
                 hide()
             }
-            tvSortByName.setOnClickListener {
-                onClick.invoke(SortMode.SORT_BY_NAME)
+            btnYes.setOnClickListener {
+                onClick.invoke(true)
                 hide()
             }
-            tvSortByType.setOnClickListener {
-                onClick.invoke(SortMode.SORT_BY_TYPE)
+            btnNo.setOnClickListener {
+                onClick.invoke(false)
                 hide()
             }
         }

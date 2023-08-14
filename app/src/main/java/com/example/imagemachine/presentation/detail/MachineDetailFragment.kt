@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.data.Resource
 import com.example.core.goneMultipleViews
+import com.example.core.navigateBack
 import com.example.core.navigateTo
 import com.example.core.observeData
 import com.example.core.px
@@ -44,11 +45,13 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
         super.onViewCreated(view, savedInstanceState)
         observeSaveMachine()
         observeListImage()
+        observeDeleteMachine()
+        setData()
         setupThumbnailAdapter()
-        bindData()
         setupAddImageClickListener()
         setupSaveClickListener()
         setOnDateClickListener()
+        setOnDeleteClickListener()
     }
 
     private fun observeListImage() {
@@ -69,7 +72,23 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
         }
     }
 
-    private fun bindData() {
+    private fun observeDeleteMachine() {
+        observeData(viewModel.deleteMachineLiveData) { result ->
+            result?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        toast("Deleted!")
+                        navigateBack()
+                    }
+                    is Resource.Error -> toast("${it.error.message}")
+                    else -> {}
+                }
+            }
+        }
+    }
+
+
+    private fun setData() {
         binding.apply {
             etId.setText(args.argsMachineDetail.id.toString())
             etName.setText(args.argsMachineDetail.machineName)
@@ -160,6 +179,14 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+
+    private fun setOnDeleteClickListener() {
+        binding.btnDelete.setOnClickListener {
+            BottomDialogDelete(requireContext(), onClick = {
+                if (it) viewModel.deleteMachineItem(args.argsMachineDetail.id)
+            }).showDialog()
         }
     }
 }

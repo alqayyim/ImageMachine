@@ -9,7 +9,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel { MachineViewModel(get(), get()) }
-    viewModel { MachineDetailViewModel(get()) }
+    viewModel { MachineDetailViewModel(get(), get()) }
     viewModel { QRScannerViewModel(get(), get()) }
 
 }

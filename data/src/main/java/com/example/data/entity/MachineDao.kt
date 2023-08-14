@@ -21,8 +21,9 @@ interface MachineDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insertAll(machine: List<MachineItemEntity>)
 
-    @Delete
-    fun delete(machine: MachineItemEntity)
+
+    @Query("DELETE FROM machine_table WHERE id = :arg0")
+    fun deleteById(arg0: Int)
 
     @Query("SELECT * from machine_table")
     fun getAllMachine(): List<MachineItemEntity>

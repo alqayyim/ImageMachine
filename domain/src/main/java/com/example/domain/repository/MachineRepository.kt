@@ -14,5 +14,7 @@ interface MachineRepository {
 
     suspend fun checkMachine(request: String): Flow<Resource<Boolean>>
 
+    suspend fun deleteMachineItem(request: Int): Flow<Resource<Unit>>
+
     suspend fun getMachine(request: Int): Flow<Resource<MachineItem>>
 }
