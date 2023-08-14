@@ -1,4 +1,4 @@
-package com.example.imagemachine.presentation.dashboard
+package com.example.imagemachine.presentation.qrcode
 
 import android.os.Bundle
 import android.view.View

@@ -1,6 +1,6 @@
 package com.example.imagemachine.module.module
 
-import com.example.imagemachine.presentation.dashboard.QRScannerViewModel
+import com.example.imagemachine.presentation.qrcode.QRScannerViewModel
 import com.example.imagemachine.presentation.detail.MachineDetailViewModel
 import com.example.imagemachine.presentation.home.MachineViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel

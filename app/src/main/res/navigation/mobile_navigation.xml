@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/nav_qr"
-        android:name="com.example.imagemachine.presentation.dashboard.QRScannerFragment"
+        android:name="com.example.imagemachine.presentation.qrcode.QRScannerFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_qr_scanner">
 
@@ -43,6 +43,23 @@
         <argument
             android:name="argsMachineDetail"
             app:argType="com.example.domain.model.MachineItem" />
+
+        <action
+            android:id="@+id/action_to_image"
+            app:destination="@+id/nav_machine_image"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_machine_image"
+        android:name="com.example.imagemachine.presentation.image.MachineImageFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_machine_image" >
+
+        <argument
+            android:name="argsMachineImage"
+            app:argType="string"
+            app:nullable="true"  />
 
     </fragment>
 

@@ -4,13 +4,15 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.data.Resource
 import com.example.core.goneMultipleViews
 import com.example.core.navigateBack
-import com.example.core.navigateTo
 import com.example.core.observeData
 import com.example.core.px
 import com.example.core.toast
@@ -34,10 +36,8 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
     private val args: MachineDetailFragmentArgs by navArgs()
     private val thumbnailAdapter by lazy {
         ThumbnailAdapter(
-            onClick = { navigateTo(R.id.action_to_detail) },
-            onDeleteClick = {
-                onDeleteClicked(it)
-            }
+            onImageClick =  { imageView, uri -> onImageClicked(imageView, uri) },
+            onDeleteClick = { onDeleteClicked(it) }
         )
     }
 
@@ -56,7 +56,11 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
 
     private fun observeListImage() {
         observeData(viewModel.machineImages) { result ->
-            result?.let { thumbnailAdapter.submitList(it) }
+            result?.let {
+                thumbnailAdapter.submitList(it)
+                if (it.size >= 10) goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
+                else visibleMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
+            }
         }
     }
 
@@ -103,6 +107,11 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
             addItemDecoration(VerticalSpaceItemDecoration(2.px))
             layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = thumbnailAdapter
+            postponeEnterTransition()
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         }
         args.argsMachineDetail.images?.let {
             if (it.size >= 10) goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
@@ -130,6 +139,12 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
         viewModel.machineImages.value = data
     }
 
+    private fun onImageClicked(imgView: ImageView, uri: String) {
+        val extras = FragmentNavigatorExtras(imgView to uri)
+        val action = MachineDetailFragmentDirections.actionToImage(uri)
+        findNavController().navigate(action, extras)
+    }
+
     private fun setupAddImageClickListener() {
         binding.layoutAddImage.setOnClickListener {
             PermissionX.init(requireActivity())
@@ -143,14 +158,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                                 val existingImage = thumbnailAdapter.currentList
                                 val mergeImage = galleryImage.plus(existingImage).distinct()
                                 val totalSize = mergeImage.size
-                                if (totalSize == 10) {
-                                    goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
-                                    viewModel.machineImages.value = mergeImage
-                                } else if (totalSize < 10) {
-                                    visibleMultipleViews(
-                                        binding.ivAddImage,
-                                        binding.tvAddImagesLabel
-                                    )
+                                if (totalSize <= 10) {
                                     viewModel.machineImages.value = mergeImage
                                 } else toast("You have more than 10 images")
                             }

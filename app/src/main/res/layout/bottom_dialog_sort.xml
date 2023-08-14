@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/ivHeaderLine" />
 
     <TextView
-        android:id="@+id/tvQuickActions"
+        android:id="@+id/tvSortByTitle"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toStartOf="@id/tvSortByType"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvQuickActions" />
+        app:layout_constraintTop_toBottomOf="@id/tvSortByTitle" />
 
 
     <TextView
