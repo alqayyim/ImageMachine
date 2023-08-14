@@ -28,18 +28,15 @@
 - [Modularization](https://developer.android.com/topic/modularization) enables separate functionality into independent, interchangeable modules. But in this project I only make separate module for core, data and domain module, while the feature module is not due to the small project size/feature
 
 - Based on Clean Architecture's rules, the app consist of 3 layer :
-  ## 1. Data Layer
-  
-     The one who responsible as the source of data, and has a direct contact with API or local DB.
-     This layer contains Repository Implementation to returns data from a Data Source (Cached or Remote), and has a Mapper class to map object model from data layer to domain layer, and usually a service to interact with API (in this app there is no API connection).
+  ## 1. Data Layer \n
+  The one who responsible as the source of data, and has a direct contact with API or local DB.
+  This layer contains Repository Implementation to returns data from a Data Source (Cached or Remote), and has a Mapper class to map object model from data layer to domain layer, and usually a service to interact with API (in this app there is no API connection).
 
-  ## 2. Domain Layer
-  
-     From "flow of data" perspective, this layer connects the presentation layer and data layer. It contains entities, usecase and repository interfaces.
+  ## 2. Domain Layer \n
+  From "flow of data" perspective, this layer connects the presentation layer and data layer. It contains entities, usecase and repository interfaces.
 
-  ## 3. Presentation Layer
-  
-     It observes data using LiveData inside viewModel, and if there an update or new value assigned to livedata, the presentation (Fragment/Activity) will be updated.
+  ## 3. Presentation Layer \n
+  It observes data using LiveData inside viewModel, and if there an update or new value assigned to livedata, the presentation (Fragment/Activity) will be updated.
 
 ##  Data Source
 
