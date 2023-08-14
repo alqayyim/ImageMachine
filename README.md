@@ -41,5 +41,3 @@
 ##  Data Source
 
 I used dummy data in MachineRepositoryImpl as the first source of data, and then the data will be saved to local database using Room. And every update of the machine data (update name, type, images) will be queried by using Room. 
-
-
