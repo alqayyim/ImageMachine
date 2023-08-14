@@ -1,8 +1,11 @@
 package com.example.core
 
+import android.net.Uri
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 
 /**
  * @author asadurrahman.qayyim
@@ -25,6 +28,10 @@ fun goneMultipleViews(vararg views: View) {
     views.forEach {
         it.visible(false)
     }
+}
+
+fun ImageView.loadImage(img: Uri) {
+    Glide.with(this).load(img).into(this)
 }
 
 

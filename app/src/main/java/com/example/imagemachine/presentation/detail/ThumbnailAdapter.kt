@@ -4,9 +4,11 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core.loadImage
 import com.example.imagemachine.R
 import com.example.imagemachine.databinding.ItemThumbnailBinding
 
@@ -43,8 +45,8 @@ class ThumbnailAdapter(
         fun bind(data: String) {
             binding.apply {
                 ivThumbnail.apply {
-                    transitionName = data
-                    setImageURI(Uri.parse(data))
+                    ViewCompat.setTransitionName(ivThumbnail, data)
+                    loadImage(Uri.parse(data))
                 }
                 ivDelete.setOnClickListener {
                     onDeleteClick.invoke(data)

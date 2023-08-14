@@ -36,7 +36,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
     private val args: MachineDetailFragmentArgs by navArgs()
     private val thumbnailAdapter by lazy {
         ThumbnailAdapter(
-            onImageClick =  { imageView, uri -> onImageClicked(imageView, uri) },
+            onImageClick = { imageView, uri -> onImageClicked(imageView, uri) },
             onDeleteClick = { onDeleteClicked(it) }
         )
     }
@@ -84,6 +84,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                         toast("Deleted!")
                         navigateBack()
                     }
+
                     is Resource.Error -> toast("${it.error.message}")
                     else -> {}
                 }
@@ -107,11 +108,6 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
             addItemDecoration(VerticalSpaceItemDecoration(2.px))
             layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = thumbnailAdapter
-            postponeEnterTransition()
-            viewTreeObserver.addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
-            }
         }
         args.argsMachineDetail.images?.let {
             if (it.size >= 10) goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
@@ -158,9 +154,8 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
                                 val existingImage = thumbnailAdapter.currentList
                                 val mergeImage = galleryImage.plus(existingImage).distinct()
                                 val totalSize = mergeImage.size
-                                if (totalSize <= 10) {
-                                    viewModel.machineImages.value = mergeImage
-                                } else toast("You have more than 10 images")
+                                if (totalSize <= 10) viewModel.machineImages.value = mergeImage
+                                else toast("You have more than 10 images")
                             }
                     } else {
                         toast("These permissions are denied: $deniedList")
@@ -172,21 +167,24 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
     private fun setOnDateClickListener() {
         val cal = Calendar.getInstance()
 
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val myFormat = "MMMM dd yyyy"
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
-            binding.etDate.setText(sdf.format(cal.time))
-        }
+                val myFormat = "MMMM dd yyyy"
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+                binding.etDate.setText(sdf.format(cal.time))
+            }
 
         binding.etDate.setOnClickListener {
-            DatePickerDialog(requireContext(), dateSetListener,
+            DatePickerDialog(
+                requireContext(), dateSetListener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)).show()
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
     }
 
