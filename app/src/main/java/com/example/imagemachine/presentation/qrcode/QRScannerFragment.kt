@@ -11,6 +11,7 @@ import com.example.core.data.Resource
 import com.example.core.navigateTo
 import com.example.core.observeData
 import com.example.core.toast
+import com.example.domain.model.OpenMode
 import com.example.imagemachine.R
 import com.example.imagemachine.databinding.FragmentQrScannerBinding
 import com.example.imagemachine.presentation.home.MachineFragmentDirections
@@ -61,7 +62,7 @@ class QRScannerFragment : Fragment(R.layout.fragment_qr_scanner) {
             result?.let {
                 when (it) {
                     is Resource.Success -> it.data?.let {
-                        navigateTo(MachineFragmentDirections.actionToDetail(it))
+                        navigateTo(MachineFragmentDirections.actionToDetail(OpenMode.EDIT, it))
                     }
                     is Resource.Error -> toast("${it.error.message}")
                     else -> {}

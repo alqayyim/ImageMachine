@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.EditText
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
@@ -28,6 +29,13 @@ fun goneMultipleViews(vararg views: View) {
 
 fun ImageView.loadImage(img: Uri) {
     Glide.with(this).load(img).into(this)
+}
+
+fun EditText.isEditable(editable: Boolean) {
+    isFocusable = editable
+    isFocusableInTouchMode = editable
+    isClickable = editable
+    isEnabled = editable
 }
 
 

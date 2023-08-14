@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.example.imagemachine.databinding.BottomDialogSortBinding
+import com.example.imagemachine.presentation.home.enumMode.SortMode
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BottomDialogSortBy(

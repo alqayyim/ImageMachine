@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ImageMachine</string>
     <string name="title_home">Machine Data</string>
-    <string name="title_dashboard">Code Reader</string>
+    <string name="title_qr_code">Code Reader</string>
     <string name="title_detail">Machine Detail</string>
 </resources>

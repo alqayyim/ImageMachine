@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -12,12 +13,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.core.data.Resource
 import com.example.core.goneMultipleViews
+import com.example.core.isEditable
 import com.example.core.navigateBack
 import com.example.core.observeData
 import com.example.core.px
 import com.example.core.toast
 import com.example.core.visibleMultipleViews
 import com.example.domain.model.MachineItem
+import com.example.domain.model.OpenMode
 import com.example.imagemachine.R
 import com.example.imagemachine.databinding.FragmentMachineDetailBinding
 import com.example.imagemachine.utils.VerticalSpaceItemDecoration
@@ -92,14 +95,20 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
         }
     }
 
-
     private fun setData() {
-        binding.apply {
-            etId.setText(args.argsMachineDetail.id.toString())
-            etName.setText(args.argsMachineDetail.machineName)
-            etType.setText(args.argsMachineDetail.machineType)
-            etCodeNumber.setText(args.argsMachineDetail.machineQRCodeNumber.toString())
-            etDate.setText(args.argsMachineDetail.lastMaintainedDate)
+        if (args.argsOpenMode == OpenMode.EDIT) {
+            binding.apply {
+                etId.setText(args.argsMachineDetail?.id.toString())
+                etName.setText(args.argsMachineDetail?.machineName)
+                etType.setText(args.argsMachineDetail?.machineType)
+                etCodeNumber.setText(args.argsMachineDetail?.machineQRCodeNumber.toString())
+                etDate.setText(args.argsMachineDetail?.lastMaintainedDate)
+                binding.etId.isEditable(false)
+            }
+        } else {
+            binding.etId.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.btnDelete.isEnabled = false
+            binding.etId.isEditable(true)
         }
     }
 
@@ -109,7 +118,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
             layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = thumbnailAdapter
         }
-        args.argsMachineDetail.images?.let {
+        args.argsMachineDetail?.images?.let {
             if (it.size >= 10) goneMultipleViews(binding.ivAddImage, binding.tvAddImagesLabel)
             viewModel.machineImages.value = it
         }
@@ -118,7 +127,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
     private fun setupSaveClickListener() {
         binding.btnSave.setOnClickListener {
             val data = MachineItem(
-                id = args.argsMachineDetail.id,
+                id = args.argsMachineDetail?.id ?: binding.etId.text.toString().toInt(),
                 machineName = binding.etName.text.toString(),
                 machineType = binding.etType.text.toString(),
                 machineQRCodeNumber = binding.etCodeNumber.text.toString().toInt(),
@@ -191,7 +200,7 @@ class MachineDetailFragment : Fragment(R.layout.fragment_machine_detail) {
     private fun setOnDeleteClickListener() {
         binding.btnDelete.setOnClickListener {
             BottomDialogDelete(requireContext(), onClick = {
-                if (it) viewModel.deleteMachineItem(args.argsMachineDetail.id)
+                if (it) viewModel.deleteMachineItem(args.argsMachineDetail?.id ?: -1)
             }).showDialog()
         }
     }

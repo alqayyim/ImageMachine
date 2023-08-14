@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/nav_qr"
         android:name="com.example.imagemachine.presentation.qrcode.QRScannerFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_qr_code"
         tools:layout="@layout/fragment_qr_scanner">
 
         <action
@@ -37,12 +37,18 @@
     <fragment
         android:id="@+id/nav_machine_detail"
         android:name="com.example.imagemachine.presentation.detail.MachineDetailFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_detail"
         tools:layout="@layout/fragment_qr_scanner" >
 
         <argument
+            android:name="argsOpenMode"
+            app:argType="com.example.domain.model.OpenMode"
+            app:nullable="true"/>
+
+        <argument
             android:name="argsMachineDetail"
-            app:argType="com.example.domain.model.MachineItem" />
+            app:argType="com.example.domain.model.MachineItem"
+            app:nullable="true" />
 
         <action
             android:id="@+id/action_to_image"
@@ -53,7 +59,7 @@
     <fragment
         android:id="@+id/nav_machine_image"
         android:name="com.example.imagemachine.presentation.image.MachineImageFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_qr_code"
         tools:layout="@layout/fragment_machine_image" >
 
         <argument

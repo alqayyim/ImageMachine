@@ -15,6 +15,8 @@ import com.example.imagemachine.utils.VerticalSpaceItemDecoration
 import com.example.core.observeData
 import com.example.core.px
 import com.example.core.toast
+import com.example.domain.model.OpenMode
+import com.example.imagemachine.presentation.home.enumMode.SortMode
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MachineFragment : Fragment(R.layout.fragment_machine) {
@@ -24,7 +26,7 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
     private val machineAdapter by lazy {
         MachineAdapter(
             onClick = {
-                navigateTo(MachineFragmentDirections.actionToDetail(it))
+                navigateTo(MachineFragmentDirections.actionToDetail(OpenMode.EDIT, it))
             }
         )
     }
@@ -34,19 +36,9 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
         setupMachineAdapter()
         observeMachineList()
         viewModel.getMachineList()
-        binding.tvSortBy.setOnClickListener {
-            BottomDialogSortBy(requireContext(), onClick = {
-                when(it) {
-                    SortMode.SORT_BY_NAME -> {
-                        val data = ArrayList(machineAdapter.currentList).sortedBy { it.machineName }
-                        machineAdapter.submitList(data)
-                    }
-                    SortMode.SORT_BY_TYPE -> {
-                        val data = ArrayList(machineAdapter.currentList).sortedBy { it.machineType }
-                        machineAdapter.submitList(data)
-                    }
-                }
-            }).showDialog()
+        setupSortClickListener()
+        binding.btnAddNew.setOnClickListener {
+            navigateTo(MachineFragmentDirections.actionToDetail(OpenMode.NEW, null))
         }
     }
 
@@ -54,7 +46,8 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
         binding.rvMachine.run {
             addItemDecoration(HorizontalSpaceItemDecoration(6.px))
             addItemDecoration(VerticalSpaceItemDecoration(2.px))
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = machineAdapter
         }
     }
@@ -69,10 +62,29 @@ class MachineFragment : Fragment(R.layout.fragment_machine) {
                             machineAdapter.submitList(data)
                         }
                     }
+
                     is Resource.Error -> toast("${it.error.message}")
                     else -> {}
                 }
             }
+        }
+    }
+
+    private fun setupSortClickListener() {
+        binding.tvSortBy.setOnClickListener {
+            BottomDialogSortBy(requireContext(), onClick = {
+                when (it) {
+                    SortMode.SORT_BY_NAME -> {
+                        val data = ArrayList(machineAdapter.currentList).sortedBy { it.machineName }
+                        machineAdapter.submitList(data)
+                    }
+
+                    SortMode.SORT_BY_TYPE -> {
+                        val data = ArrayList(machineAdapter.currentList).sortedBy { it.machineType }
+                        machineAdapter.submitList(data)
+                    }
+                }
+            }).showDialog()
         }
     }
 }
