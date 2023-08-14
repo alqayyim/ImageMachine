@@ -10,11 +10,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.core.visible
 import com.example.imagemachine.databinding.ActivityMainBinding
+import com.example.imagemachine.utils.delegate.viewBinding
 import com.permissionx.guolindev.PermissionX
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private val binding by viewBinding(ActivityMainBinding::inflate)
     private lateinit var navHostFragment: NavHostFragment
     private val navController by lazy { navHostFragment.navController }
 
@@ -29,8 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment

@@ -1,16 +1,9 @@
 package com.example.data.entity
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-
-/**
- * @author asadurrahman.qayyim
- * @date 13-Aug-2023
- */
 
 @Dao
 interface MachineDao {

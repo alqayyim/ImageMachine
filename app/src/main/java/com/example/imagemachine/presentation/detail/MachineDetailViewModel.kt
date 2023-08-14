@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.Resource
-import com.example.domain.model.MachineImage
 import com.example.domain.model.MachineItem
 import com.example.domain.usecase.DeleteMachineItemUseCase
 import com.example.domain.usecase.SaveMachineItemUseCase

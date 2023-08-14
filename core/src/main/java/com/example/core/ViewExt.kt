@@ -7,10 +7,6 @@ import android.view.View.VISIBLE
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
-/**
- * @author asadurrahman.qayyim
- */
-
 fun View.visible(isShowing: Boolean) {
     visibility = when (isShowing) {
         true -> VISIBLE
